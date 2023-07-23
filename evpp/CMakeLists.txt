@@ -11,6 +11,7 @@ file(GLOB evpp_UDP_PUBLIC_HEADERS udp/*.h)
 message(STATUS "evpp_SRCS : " ${evpp_SRCS})
 
 set (MACOSX_RPATH ${LIBRARY_OUTPUT_PATH})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='"$(notdir $<)"'")
 
 include_directories(${PROJECT_SOURCE_DIR})
 
@@ -57,6 +58,7 @@ if (UNIX)
 
     install (
       TARGETS evpp evpp_static evpp_lite_static evpp_boost evpp_boost_static evpp_concurrentqueue evpp_concurrentqueue_static
+      # TARGETS evpp evpp_lite_static evpp_boost evpp_boost_static evpp_concurrentqueue evpp_concurrentqueue_static
       EXPORT ${PACKAGE_NAME}
       RUNTIME DESTINATION bin
       LIBRARY DESTINATION lib
@@ -65,6 +67,7 @@ if (UNIX)
 else (UNIX)
     install (
       TARGETS evpp_static evpp_lite_static
+      # TARGETS  evpp_lite_static
       EXPORT ${PACKAGE_NAME}
       RUNTIME DESTINATION bin
       LIBRARY DESTINATION lib

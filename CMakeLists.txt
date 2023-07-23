@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.8)
 
 project (safe-evpp C CXX)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='"$(notdir $<)"'")
+
 if (UNIX)
     if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE "Release")
@@ -30,7 +32,7 @@ if (UNIX)
     include_directories (${PROJECT_SOURCE_DIR}
                          ${PROJECT_SOURCE_DIR}/3rdparty)
 else (UNIX)
-set (CXX_FLAGS -DWIN32 -D_WIN32 -EHsc)
+    set (CXX_FLAGS -DWIN32 -D_WIN32 -EHsc)
     set(VcpkgRoot ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET})
     include_directories(${VcpkgRoot}/include
                         ${PROJECT_SOURCE_DIR}
@@ -48,9 +50,9 @@ string (REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 if (UNIX)
     SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -D_DEBUG -DGOOGLE_STRIP_LOG=0")
     SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -ggdb -DNDEBUG -DGOOGLE_STRIP_LOG=1")
-    SET(DEPENDENT_LIBRARIES event glog pthread)
+    SET(DEPENDENT_LIBRARIES event pthread)
 else (UNIX)
-    SET(DEPENDENT_LIBRARIES event glog)
+    SET(DEPENDENT_LIBRARIES event)
 endif (UNIX)
 
 # Set to true if https support is needed.
@@ -87,13 +89,13 @@ message (STATUS "THRIFT_INCLUDE_DIR " ${THRIFT_INCLUDE_DIR})
 message (STATUS "THRIFT_LIBRARY " ${THRIFT_LIBRARY})
 
 add_subdirectory (evpp)
-add_subdirectory (apps)
-add_subdirectory (labs)
+# add_subdirectory (apps)
+# add_subdirectory (labs)
 
 if (NOT EVPP_VCPKG_BUILD)
-    add_subdirectory (test)
-    add_subdirectory (examples)
-    add_subdirectory (benchmark)
+    #add_subdirectory (test)
+    #add_subdirectory (examples)
+    #add_subdirectory (benchmark)
 endif ()
 
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")

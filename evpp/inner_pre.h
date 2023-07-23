@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
+#include <vector>
 #include <iostream>
 #include <memory>
 #include <functional>
